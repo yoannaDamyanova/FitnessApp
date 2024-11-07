@@ -12,7 +12,7 @@ namespace FitnessApp.Data.Models
         public ApplicationUser User { get; set; } = null!;
 
         [Required]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; } = null!;
 
         [Required]
         public Guid FitnessClassId { get; set; }

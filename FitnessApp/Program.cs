@@ -1,92 +1,84 @@
-using FitnessApp.Data;
-using FitnessApp.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
+using FitnessApp.Web.Extenxions;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-string connectionString = builder.Configuration.GetConnectionString("FitnessConnection")!;
+var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services
-    .AddDbContext<FitnessAppDbContext>(options =>
-    {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("FitnessConnection"), b => b.MigrationsAssembly("FitnessApp.Data"));
-    });
+builder.Services.AddApplicationDbContext(builder.Configuration);
+builder.Services.AddApplicationIdentity(builder.Configuration);
 
-builder.Services
-    .AddIdentity<ApplicationUser, IdentityRole<Guid>>(cfg =>
-    {
-        ConfigureIdentity(builder, cfg);
-    })
-    .AddEntityFrameworkStores<FitnessAppDbContext>()
-    .AddRoles<IdentityRole<Guid>>()
-    .AddSignInManager<SignInManager<ApplicationUser>>()
-    .AddUserManager<UserManager<ApplicationUser>>();
-
-builder.Services.ConfigureApplicationCookie(cfg =>
+builder.Services.AddLocalization(opt => opt.ResourcesPath = "Resources");
+builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-    cfg.LoginPath = "/Identity/Account/Login";
+    var supportedCultures = new CultureInfo[]
+    {
+        new CultureInfo("bg"),
+        new CultureInfo("en")
+    };
+
+    options.DefaultRequestCulture = new RequestCulture("bg");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+    options.RequestCultureProviders = new List<IRequestCultureProvider>()
+    {
+        new CookieRequestCultureProvider()
+    };
 });
 
-//builder.Services.RegisterRepositories(typeof(ApplicationUser).Assembly);
-//builder.Services.RegisterUserDefinedServices(typeof(IMovieService).Assembly);
-
-//builder.Services.AddScoped<ICinemaService, CinemaService>();
-
-//builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
-
-WebApplication app = builder.Build();
-
-//AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).Assembly);
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+builder.Services.AddControllersWithViews(options =>
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    //options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+})
+    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+    .AddDataAnnotationsLocalization();
+
+//builder.Services.AddApplicationServices();
+builder.Services.AddMemoryCache();
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseMigrationsEndPoint();
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error/500");
+    app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
+app.UseRequestLocalization();
 app.UseStaticFiles();
 
 app.UseRouting();
 
-// Authorization can work only if we know who uses the application -> We need Authentication
-app.UseAuthentication(); // First -> Who am I?
-app.UseAuthorization(); // Second -> What can I do?
+app.UseAuthentication();
+app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages(); // Add routing to Identity Razor Pages
-
-app.Run();
-
-static void ConfigureIdentity(WebApplicationBuilder builder, IdentityOptions cfg)
+app.UseEndpoints(endpoints =>
 {
-    cfg.Password.RequireDigit =
-        builder.Configuration.GetValue<bool>("Identity:Password:RequireDigits");
-    cfg.Password.RequireLowercase =
-        builder.Configuration.GetValue<bool>("Identity:Password:RequireLowercase");
-    cfg.Password.RequireUppercase =
-        builder.Configuration.GetValue<bool>("Identity:Password:RequireUppercase");
-    cfg.Password.RequireNonAlphanumeric =
-        builder.Configuration.GetValue<bool>("Identity:Password:RequireNonAlphanumerical");
-    cfg.Password.RequiredLength =
-        builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
-    cfg.Password.RequiredUniqueChars =
-        builder.Configuration.GetValue<int>("Identity:Password:RequiredUniqueCharacters");
+    endpoints.MapControllerRoute(
+        name: "House Details",
+        pattern: "/House/Details/{id}/{information}",
+        defaults: new { Controller = "House", Action = "Details" }
+    );
 
-    cfg.SignIn.RequireConfirmedAccount =
-        builder.Configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedAccount");
-    cfg.SignIn.RequireConfirmedEmail =
-        builder.Configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedEmail");
-    cfg.SignIn.RequireConfirmedPhoneNumber =
-        builder.Configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedPhoneNumber");
+    endpoints.MapControllerRoute(
+            name: "areas",
+            pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
 
-    cfg.User.RequireUniqueEmail =
-        builder.Configuration.GetValue<bool>("Identity:User:RequireUniqueEmail");
-}
+    endpoints.MapDefaultControllerRoute();
+    endpoints.MapRazorPages();
+});
+
+await app.CreateAdminRoleAsync();
+
+await app.RunAsync();
 

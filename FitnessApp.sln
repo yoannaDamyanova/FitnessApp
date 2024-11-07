@@ -3,19 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitnessApp.Web", "FitnessApp\FitnessApp.Web.csproj", "{0A847280-EF16-4C15-BD5C-871E3181C144}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitnessApp.Web", "FitnessApp\FitnessApp.Web.csproj", "{0A847280-EF16-4C15-BD5C-871E3181C144}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{10CCA00D-050C-451B-9DFD-71CAE0B7BD0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitnessApp.Data", "FinessApp.Data\FitnessApp.Data.csproj", "{85ED9C6A-7DBB-4CA9-A468-8E534C4036E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitnessApp.Data", "FinessApp.Data\FitnessApp.Data.csproj", "{85ED9C6A-7DBB-4CA9-A468-8E534C4036E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitnessApp.Data.Models", "FitnessApp.Data.Models\FitnessApp.Data.Models.csproj", "{1D54AAD1-96DE-4F7A-98C2-AC2066B4D12D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitnessApp.Data.Models", "FitnessApp.Data.Models\FitnessApp.Data.Models.csproj", "{1D54AAD1-96DE-4F7A-98C2-AC2066B4D12D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{2FEF3A9C-817F-4550-BE41-3EF2149A8785}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitnessApp.Common", "FitnessApp.Common\FitnessApp.Common.csproj", "{4287CA72-6FF9-48AA-98FE-F76B2B1E1968}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitnessApp.Common", "FitnessApp.Common\FitnessApp.Common.csproj", "{4287CA72-6FF9-48AA-98FE-F76B2B1E1968}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitnessApp.Web.ViewModels", "FitnessApp.Web.ViewModels\FitnessApp.Web.ViewModels.csproj", "{698BE9DB-315A-4AB3-8A83-24145D1EC91A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitnessApp.Web.ViewModels", "FitnessApp.Web.ViewModels\FitnessApp.Web.ViewModels.csproj", "{698BE9DB-315A-4AB3-8A83-24145D1EC91A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitnessApp.Web.Infrastructure", "FitnessApp.Web.Infrastructure\FitnessApp.Web.Infrastructure.csproj", "{365F0EFF-366C-408F-9E3B-6F25E76FC413}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{698BE9DB-315A-4AB3-8A83-24145D1EC91A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{698BE9DB-315A-4AB3-8A83-24145D1EC91A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{698BE9DB-315A-4AB3-8A83-24145D1EC91A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{365F0EFF-366C-408F-9E3B-6F25E76FC413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{365F0EFF-366C-408F-9E3B-6F25E76FC413}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{365F0EFF-366C-408F-9E3B-6F25E76FC413}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{365F0EFF-366C-408F-9E3B-6F25E76FC413}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +58,7 @@ Global
 		{85ED9C6A-7DBB-4CA9-A468-8E534C4036E3} = {10CCA00D-050C-451B-9DFD-71CAE0B7BD0B}
 		{1D54AAD1-96DE-4F7A-98C2-AC2066B4D12D} = {10CCA00D-050C-451B-9DFD-71CAE0B7BD0B}
 		{698BE9DB-315A-4AB3-8A83-24145D1EC91A} = {2FEF3A9C-817F-4550-BE41-3EF2149A8785}
+		{365F0EFF-366C-408F-9E3B-6F25E76FC413} = {2FEF3A9C-817F-4550-BE41-3EF2149A8785}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0962EAA8-8893-460E-ABE7-D08B23A085CC}

@@ -21,7 +21,7 @@ namespace FitnessApp.Data.Models
         public int CategoryId { get; set; }
 
         [Required]
-        public Guid InstructorId { get; set; } 
+        public int InstructorId { get; set; }
 
         [Required]
         public DateTime StartTime { get; set; }
@@ -39,7 +39,7 @@ namespace FitnessApp.Data.Models
         // Navigation properties
         [Required]
         [ForeignKey(nameof(InstructorId))]
-        public virtual ApplicationUser Instructor { get; set; } = null!;
+        public virtual Instructor Instructor { get; set; } = null!;
 
         [Required]
         public virtual Category Category { get; set; } = null!;

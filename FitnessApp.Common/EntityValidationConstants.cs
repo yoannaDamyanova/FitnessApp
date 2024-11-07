@@ -30,9 +30,14 @@
 
         public static class User
         {
-            public const int MaxBiographyLength = 500; 
-            public const int MaxSpecializationsLength = 100;
+            public const int MaxNameLength = 100;
+            public const int MinNameLength = 5;
         }
 
+        public static class Instructor
+        {
+            public const int MaxBiographyLength = 500;
+            public const int MaxSpecializationsLength = 100;
+        }
     }
 }
